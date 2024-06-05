@@ -1,0 +1,13 @@
+{
+    "questions": [
+      { "label": "What is Your Current Position?" },
+      { "label": "Do You Have Any Previous Experience in This Position?" },
+      { "label": "Do You Have Any Different Experience?" }
+    ],
+    "countryOptions": [
+      { "value": "1", "label": "Option 1" },
+      { "value": "2", "label": "Option 2" },
+      { "value": "3", "label": "Option 3" }
+    ]
+  }
+  

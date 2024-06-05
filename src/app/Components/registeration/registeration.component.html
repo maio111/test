@@ -1,0 +1,202 @@
+<section class="vh-100 bg-image">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <!-- Image Column -->
+      <div class="col-lg-12 col-xl-5">
+        <img src="../../../assets/img/draw2.jpg" class="img-fluid" alt="Sample image">
+      </div>
+      <!-- Form Column -->
+      <div class="col-md-10 col-lg-6 col-xl-5">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 title">Sign up</p>
+            <form class="mx-1 mx-md-4">
+              <mat-stepper [linear]="isLinear" #stepper>
+                <!-- First Step -->
+                <mat-step [stepControl]="firstFormGroup">
+                  <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel></ng-template>
+                    <mat-form-field>
+                      <mat-label>First Name</mat-label>
+                      <input matInput placeholder="First name" formControlName="FirstnameCtrl" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Family Name</mat-label>
+                      <input matInput placeholder="Family name" formControlName="FamilynameCtrl" required>
+                    </mat-form-field>
+                    <mat-radio-group formControlName="genderCtrl" required>
+                      <mat-label>Gender: </mat-label>
+                      <mat-radio-button value="male">Male</mat-radio-button>
+                      <mat-radio-button value="female">Female</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-form-field>
+                      <mat-label>Date of Birth</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName="dobCtrl" required>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <div>
+                      <button mat-button matStepperNext>Next</button>
+                      <button mat-button type="button" (click)="onSave(0)">Save</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!-- Second Step -->
+                <mat-step [stepControl]="secondFormGroup" label="">
+                  <form [formGroup]="secondFormGroup">
+                    <mat-form-field>
+                      <mat-label>Address</mat-label>
+                      <input matInput formControlName="addressCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Country</mat-label>
+                      <mat-select formControlName="countryCtrl" required>
+                        <mat-option *ngFor="let option of countryOptions" [value]="option.value">{{ option.label }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-label>Do you have a reference ?</mat-label>
+                    <br/>
+                    <mat-radio-group formControlName="referenceCtrl" aria-label="referenceCtrl">
+                      <mat-radio-button value="1">Yes</mat-radio-button>
+                      <mat-radio-button value="2">No</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-form-field *ngIf="secondFormGroup?.get('referenceCtrl')?.value === '1'">
+                      <input matInput formControlName="referenceDetailsFirstName" placeholder="First Name">
+                    </mat-form-field>
+                    <mat-form-field *ngIf="secondFormGroup?.get('referenceCtrl')?.value === '1'">
+                      <input matInput formControlName="referenceDetailsFamilyName" placeholder="Family Name">
+                    </mat-form-field>
+                    <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                      <button mat-button matStepperNext>Next</button>
+                      <button mat-button type="button" (click)="onSave(1)">Save</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!-- Third Step -->
+                <mat-step [stepControl]="thirdFormGroup">
+                  <form [formGroup]="thirdFormGroup">
+                    <mat-label>{{ questions[0].label }}</mat-label>
+                    <mat-form-field>
+                      <mat-label>Country</mat-label>
+                      <input matInput placeholder="Country" formControlName="Country3" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Role</mat-label>
+                      <input matInput placeholder="Role" formControlName="Role3" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Description</mat-label>
+                      <input matInput placeholder="Description" formControlName="Description3" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>From </mat-label>
+                      <input matInput placeholder="YYYY-MM-DD" formControlName="FromDate" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>To </mat-label>
+                      <input matInput placeholder="YYYY-MM-DD" formControlName="ToDate" required>
+                    </mat-form-field>
+                    <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                      <button mat-button matStepperNext>Next</button>
+                      <button mat-button type="button" (click)="onSave(2)">Save</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!-- Fourth Step -->
+                <mat-step [stepControl]="forthFormGroup">
+                  <form [formGroup]="forthFormGroup">
+                    <ng-template matStepLabel></ng-template>
+                    <mat-label>{{ questions[1].label }}</mat-label>
+                    <mat-radio-group formControlName="referenceForPrePosition" aria-label="referenceForPrePosition">
+                      <mat-radio-button value="1">Yes</mat-radio-button>
+                      <mat-radio-button value="2">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div formArrayName="previousPositions" *ngIf="forthFormGroup.get('referenceForPrePosition')?.value === '1'">
+                      <div *ngFor="let position of previousPositionsControls; let i = index" [formGroupName]="i">
+                        <div *ngIf="i > 0">
+                          <mat-label>Other Positions</mat-label>
+                        </div>
+                        <mat-form-field>
+                          <mat-label>Country</mat-label>
+                          <input matInput placeholder="Country" formControlName="Country" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>Role</mat-label>
+                          <input matInput placeholder="Role" formControlName="Role" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>Description</mat-label>
+                          <input matInput placeholder="Description" formControlName="Description" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>From </mat-label>
+                          <input matInput placeholder="YYYY-MM-DD" formControlName="FromDate" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>To </mat-label>
+                          <input matInput placeholder="YYYY-MM-DD" formControlName="ToDate" required>
+                        </mat-form-field>
+                      </div>
+                      <button mat-button type="button" (click)="addPreviousPosition()">Add Another Position</button>
+                    </div>
+                    <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                      <button mat-button matStepperNext>Next</button>
+                      <button mat-button type="button" (click)="onSave(3)">Save</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!-- Fifth Step -->
+                <mat-step [stepControl]="fifthFormGroup">
+                  <form [formGroup]="fifthFormGroup">
+                    <ng-template matStepLabel></ng-template>
+                    <mat-label>{{ questions[2].label }}</mat-label>
+                    <mat-radio-group formControlName="referenceFordiffrentPosition" aria-label="referenceFordiffrentPosition">
+                      <mat-radio-button value="1">Yes</mat-radio-button>
+                      <mat-radio-button value="2">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div formArrayName="differentPositions" *ngIf="fifthFormGroup.get('referenceFordiffrentPosition')?.value === '1'">
+                      <div *ngFor="let position of differentPositionsControls; let i = index" [formGroupName]="i">
+                        <div *ngIf="i > 0">
+                          <mat-label>Other Positions</mat-label>
+                        </div>
+                        <mat-form-field>
+                          <mat-label>Country</mat-label>
+                          <input matInput placeholder="Country" formControlName="Country" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>Role</mat-label>
+                          <input matInput placeholder="Role" formControlName="Role" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>Description</mat-label>
+                          <input matInput placeholder="Description" formControlName="Description" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>From </mat-label>
+                          <input matInput placeholder="YYYY-MM-DD" formControlName="FromDate" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>To </mat-label>
+                          <input matInput placeholder="YYYY-MM-DD" formControlName="ToDate" required>
+                        </mat-form-field>
+                      </div>
+                      <button mat-button type="button" (click)="addDifferentPosition()">Add Another Position</button>
+                    </div>
+                    <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                      <button mat-button matStepperNext>Next</button>
+                      <button mat-button type="button" (click)="onSave(4)">Save</button>
+                    </div>
+                  </form>
+                </mat-step>
+              </mat-stepper>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
