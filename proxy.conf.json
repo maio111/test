@@ -1,0 +1,9 @@
+{
+    "/API": {
+      "target": "https://testapp20240603-3c8379b08cbb.herokuapp.com",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  
